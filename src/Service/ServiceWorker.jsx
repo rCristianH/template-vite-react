@@ -1,0 +1,4 @@
+const ServiceWorker = () => {
+
+}
+export { ServiceWorker }
