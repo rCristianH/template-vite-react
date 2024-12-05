@@ -12,6 +12,9 @@ export const Passengers = ({ state, send }) => {
     e.preventDefault();
     changeValue('');
   }
+  const chekingTicket = ()=> {
+    send({type: "DONE"})
+  }
 
   return (
     <form onSubmit={submit} className='Passengers'>
@@ -35,6 +38,7 @@ export const Passengers = ({ state, send }) => {
         <button
           className='Passenger-pay button'
           type="button"
+          onClick={chekingTicket}
         >
           Ver mi ticket
         </button>

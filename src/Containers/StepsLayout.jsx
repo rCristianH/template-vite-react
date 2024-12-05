@@ -7,7 +7,14 @@ import './StepsLayout.css';
 
 export const StepsLayout = ({ state, send }) => {
   const renderContent = () => {
-    return <Welcome />;
+    const componentsMap = {
+      initial: <Welcome send={send} />,
+      search: <Search send={send} />,
+      tickets: <Tickets send={send} />,
+      passengers: <Passengers send={send} />
+    };
+  
+    return componentsMap[state.value] || null;
   };
 
   return (

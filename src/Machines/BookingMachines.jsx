@@ -16,8 +16,7 @@ const bookingMachines = createMachine({
     },
     tickets: {
       on: {
-        DONE: "tickets",
-        CANCEL: "initial",
+        FINISH: "initial",
       }
     },
     passengers: {
