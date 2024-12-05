@@ -1,4 +1,25 @@
 import { assign, createMachine } from 'xstate'
+
+const fillCountries = {
+  initial: 'loading',
+  states: {
+    loading: {
+      on: {
+        DONE: 'success',
+        ERROR: 'failure',
+      },
+    },
+    success: {},
+    failure: {
+      on: {
+        RETRY: {
+          target: 'loading',
+        }
+      }
+    }
+  }
+}
+
 const bookingMachines = createMachine(
   {
     id: 'buyplanetickket1204',
@@ -26,6 +47,7 @@ const bookingMachines = createMachine(
           },
           CANCEL: "initial",
         },
+        ...fillCountries,
       },
       tickets: {
         on: {
