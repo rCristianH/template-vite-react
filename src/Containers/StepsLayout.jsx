@@ -11,7 +11,7 @@ export const StepsLayout = ({ state, send }) => {
       initial: <Welcome send={send} />,
       search: <Search send={send} />,
       tickets: <Tickets send={send} />,
-      passengers: <Passengers send={send} />
+      passengers: <Passengers send={send} state={state}/>
     };
   
     return componentsMap[state.value] || null;

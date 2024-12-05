@@ -1,22 +1,29 @@
-import { createMachine } from 'xstate'
+import { assign, createMachine } from 'xstate'
 const bookingMachines = createMachine(
   {
     id: 'buyplanetickket1204',
     initial: "initial",
+    context: {
+      passengers: [],
+      selectedCountry: '',
+    },
     states: {
       initial: {
         on: {
           START: {
             target: "search",
-            actions: 'printStart'
           },
         },
       },
       search: {
-        entry: 'printEntry',
-        exit: 'printExit',
         on: {
-          CONTINUE: "passengers",
+          CONTINUE: {
+            target: "passengers",
+            actions: assign({
+              selectedCountry: ({ event }) => event.selectedCountry
+            })
+
+          },
           CANCEL: "initial",
         },
       },
@@ -28,21 +35,30 @@ const bookingMachines = createMachine(
       passengers: {
         on: {
           DONE: "tickets",
-          CANCEL: "initial",
+          CANCEL: {
+            target: "initial",
+            actions: "cleanContext",
+          },
+          ADD: {
+            target: 'passengers',
+            actions: assign(
+              ({ context, event }) => {
+                return {
+                  passengers: [...context.passengers, event.newPassenger]
+                }
+              }
+            )
+          }
         }
       }
     }
   },
   {
     actions: {
-      printStart: () =>
-        console.log("🧪 ~ printStart:", "printStart")
-      ,
-      printEntry: () =>
-        console.log("🧪 ~ printEntry:", 'printEntry')
-      ,
-      printExit: () =>
-        console.log("🧪 ~ printExit:", 'printExit')
+      cleanContext: assign({
+        selectedCountry: "",
+        passengers: [],
+      }),
     }
   }
 )

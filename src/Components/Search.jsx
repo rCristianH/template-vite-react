@@ -8,7 +8,7 @@ export const Search = ({ send, context }) => {
     setFlight(event.target.value);
   };
   const onSearchContinue = () => {
-    send({type: 'CONTINUE'})
+    send({type: 'CONTINUE', selectedCountry: flight })
   }
 
   const options = ['Mexico', 'Venezuela', 'Colombia'];
