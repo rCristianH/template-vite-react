@@ -2,6 +2,7 @@ import React from 'react';
 import './Tickets.css';
 
 export const Tickets = ({ send, context }) => {
+  console.log("🧪 ~ Tickets ~ context:", context)
   const finish = () => {
     send({type: "FINISH"})
   };
@@ -13,6 +14,9 @@ export const Tickets = ({ send, context }) => {
         <div className='Tickets-country'>Colombia</div>
         <div className='Tickets-passengers'>
           <span>✈</span>
+          {context.passengers.map((person,idx)=> {
+            return <p key={idx}>{person}</p>
+          })}
         </div>
       </div>
       <button onClick={finish} className='Tickets-finalizar button'>Finalizar</button>

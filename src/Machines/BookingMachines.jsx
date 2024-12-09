@@ -7,14 +7,14 @@ const fillCountries = {
     loading: {
       invoke: {
         id: 'getCountries',
-        src: fromPromise(()=>fetchCountries()),
+        src: fromPromise(() => fetchCountries()),
         onDone: {
           target: 'success',
-          actions: assign({countries: ({event})=> event.output}),
+          actions: assign({ countries: ({ event }) => event.output }),
         },
         onError: {
           target: 'failure',
-          actions: assign({error: 'request failed'})
+          actions: assign({ error: 'request failed' })
         }
       }
     },
@@ -68,12 +68,18 @@ const bookingMachines = createMachine(
           }
         },
         on: {
-          FINISH: "initial",
+          FINISH: {
+            target: "initial",
+            actions: 'cleanContext',
+          }
         }
       },
       passengers: {
         on: {
-          DONE: "tickets",
+          DONE: {
+            target: "tickets",
+            guard: "onePasssengerRequired"
+          },
           CANCEL: {
             target: "initial",
             actions: "cleanContext",
@@ -98,6 +104,11 @@ const bookingMachines = createMachine(
         selectedCountry: "",
         passengers: [],
       }),
+    },
+    guards: {
+      onePasssengerRequired: ({ context }) => {
+        return context.passengers.length > 0;
+      }
     }
   }
 )
